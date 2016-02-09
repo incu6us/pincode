@@ -1,5 +1,6 @@
 
 
+import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -19,13 +20,13 @@ import com.pincode.utils.FWriter;
 import com.pincode.utils.SeleniumUtils;
 
 public class Runner {
-
+	
 	private static final String FILE = "PATH-TO-SAVE";
 	private static final String SEPARATOR = "|";
 
 	private static final Logger LOG = Logger.getLogger(SeleniumUtils.class);
 
-	public static void main(String[] args) throws InterruptedException {
+	public static void main(String[] args) throws InterruptedException, IOException {
 		SeleniumUtils seleniumUtils = new SeleniumUtils();
 		FWriter fw = new FWriter(FILE);
 
@@ -75,10 +76,10 @@ public class Runner {
 								strToShow = state + SEPARATOR + dist + SEPARATOR + vct + SEPARATOR + ddlLocality + SEPARATOR + pinCode;
 
 								LOG.info(strToShow);
-								fw.write(true, strToShow);
+								fw.write(strToShow);
 							}
 						} catch (TimeoutException | NoSuchElementException e) {
-							// "Server Error in '/lbpsd' Application\
+							// "Server Error in '/lbpsd' Application
 							LOG.warn("Server error appears -> " + strToShow);
 							driver.navigate().back();
 						}
@@ -87,6 +88,6 @@ public class Runner {
 				}
 			}
 		}
-
+		
 	}
 }

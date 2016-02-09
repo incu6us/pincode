@@ -11,12 +11,15 @@ public class FWriter {
 	private static final Logger LOG = Logger.getLogger(FWriter.class);
 
 	private String path;
-
 	private FileWriter fw;
+	private File file;
 
-	public FWriter(String path) {
-		super();
+	public FWriter(String path) throws IOException {
 		this.path = path;
+		file = new File(path);
+		if(file.exists() && file.isFile()){
+			file.delete();
+		}
 	}
 
 	/**
@@ -26,20 +29,17 @@ public class FWriter {
 	 *            - append mode if "true"
 	 * @throws IOException
 	 */
-	public void write(boolean append, String string) {
+	public void write(String string) {
 		try {
-			fw = new FileWriter(new File(path), append);
+			fw = new FileWriter(file, true);
 			fw.write(string+"\r\n");
-
 		} catch (IOException e) {
 			LOG.error("Write error -> " + e);
-		} finally {
+		} finally{
 			try {
 				fw.close();
-			} catch (IOException e) {
-				LOG.error("Close file error -> " + e);
+			} catch (IOException e1) {
 			}
 		}
-
 	}
 }

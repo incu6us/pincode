@@ -1,6 +1,7 @@
 
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -21,17 +22,26 @@ import com.pincode.utils.SeleniumUtils;
 
 public class Runner {
 	
+	// use an empty variable for recursive search
+	private static final String STATE = "ASSAM";
+	private static final String DIRECTION = "BARPETA";
+
 	private static final String FILE = "PATH-TO-SAVE";
 	private static final String SEPARATOR = "|";
 
+	/*
+	 * Main method
+	 */
 	private static final Logger LOG = Logger.getLogger(SeleniumUtils.class);
 
 	public static void main(String[] args) throws InterruptedException, IOException {
 		SeleniumUtils seleniumUtils = new SeleniumUtils();
 		FWriter fw = new FWriter(FILE);
 
+		List<String> stateLabels = null;
+		List<String> distLabels = null;
 		String strToShow = null;
-
+		
 		DesiredCapabilities dc = new DesiredCapabilities();
 		dc.setCapability(CapabilityType.UNEXPECTED_ALERT_BEHAVIOUR, UnexpectedAlertBehaviour.IGNORE);
 		WebDriver driver = new FirefoxDriver(dc);
@@ -43,13 +53,21 @@ public class Runner {
 		Thread.sleep(1000);
 
 		// search for each state option
-		List<String> stateLabels = seleniumUtils.labelsFromWebElement(driver, "ddlState");
+		if(STATE.isEmpty()){
+			stateLabels = seleniumUtils.labelsFromWebElement(driver, "ddlState");
+		}else{
+			stateLabels = Arrays.asList(STATE);
+		}
 		for (String state : stateLabels) {
 			new WebDriverWait(driver, 30).until(ExpectedConditions.presenceOfElementLocated(By.xpath(".//*[@id='ddlState']/option[normalize-space(text())='" + state + "']")));
 			driver.findElement(By.xpath(".//*[@id='ddlState']/option[normalize-space(text())='" + state + "']")).click();
 
 			// search for each district
-			List<String> distLabels = seleniumUtils.labelsFromWebElement(driver, "ddlDist");
+			if(DIRECTION.isEmpty()){
+				distLabels = seleniumUtils.labelsFromWebElement(driver, "ddlDist");
+			}else{
+				distLabels = Arrays.asList(DIRECTION);
+			}
 			for (String dist : distLabels) {
 				new WebDriverWait(driver, 30).until(ExpectedConditions.presenceOfElementLocated(By.xpath(".//*[@id='ddlDist']/option[normalize-space(text())='" + dist + "']")));
 				driver.findElement(By.xpath(".//*[@id='ddlDist']/option[normalize-space(text())='" + dist + "']")).click();

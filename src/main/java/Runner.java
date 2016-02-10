@@ -23,8 +23,8 @@ import com.pincode.utils.SeleniumUtils;
 public class Runner {
 	
 	// use an empty variable for recursive search
-	private static final String STATE = "ASSAM";
-	private static final String DIRECTION = "BARPETA";
+	private static final String STATE = "ANDAMAN & NICOBAR ISLANDS";
+	private static final String DIRECTION = "NORTH AND MIDDLE ANDAMAN";
 
 	private static final String FILE = "PATH-TO-SAVE";
 	private static final String SEPARATOR = "|";
@@ -75,8 +75,8 @@ public class Runner {
 				// City/town/village (ddlVCT)
 				List<String> vctLabels = seleniumUtils.labelsFromWebElement(driver, "ddlVCT");
 				for (String vct : vctLabels) {
-					new WebDriverWait(driver, 30).until(ExpectedConditions.presenceOfElementLocated(By.xpath(".//*[@id='ddlVCT']/option[normalize-space(text())='" + vct + "']")));
-					driver.findElement(By.xpath(".//*[@id='ddlVCT']/option[normalize-space(text())='" + vct + "']")).click();
+					new WebDriverWait(driver, 30).until(ExpectedConditions.presenceOfElementLocated(By.xpath(".//*[@id='ddlVCT']/option[normalize-space(text())=\"" + vct + "\"]")));
+					driver.findElement(By.xpath(".//*[@id='ddlVCT']/option[normalize-space(text())=\"" + vct + "\"]")).click();
 
 					// Locality (ddlLocality)
 					List<String> ddlLocalityLabels = seleniumUtils.labelsFromWebElement(driver, "ddlLocality");

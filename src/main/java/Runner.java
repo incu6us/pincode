@@ -82,8 +82,8 @@ public class Runner {
 					List<String> ddlLocalityLabels = seleniumUtils.labelsFromWebElement(driver, "ddlLocality");
 					for (String ddlLocality : ddlLocalityLabels) {
 						new WebDriverWait(driver, 30)
-								.until(ExpectedConditions.presenceOfElementLocated(By.xpath(".//*[@id='ddlLocality']/option[normalize-space(text())='" + ddlLocality + "']")));
-						driver.findElement(By.xpath(".//*[@id='ddlLocality']/option[normalize-space(text())='" + ddlLocality + "']")).click();
+								.until(ExpectedConditions.presenceOfElementLocated(By.xpath(".//*[@id='ddlLocality']/option[normalize-space(text())=\"" + ddlLocality + "\"]")));
+						driver.findElement(By.xpath(".//*[@id='ddlLocality']/option[normalize-space(text())=\"" + ddlLocality + "\"]")).click();
 
 						// getting pin code
 						try {

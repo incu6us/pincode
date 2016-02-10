@@ -26,7 +26,7 @@ public class SeleniumUtils {
 		
 		// get text from options
 		for (WebElement option : options) {
-			if(id!="ddlLocality" && option.getText().trim()!="Select Locality"){
+			if(!option.getText().trim().equals("Select Locality")){
 				labels.add(option.getText());
 			}
 		}

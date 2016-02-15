@@ -23,9 +23,12 @@ import com.pincode.utils.SeleniumUtils;
 public class Runner {
 	
 	// use an empty variable for recursive search
-	private static final String STATE = "ANDAMAN & NICOBAR ISLANDS";
-	private static final String DIRECTION = "NORTH AND MIDDLE ANDAMAN";
+	private static final String STATE = "MAHARASHTRA";
+	private static final String DIRECTION = "MUMBAI";
 
+//	private static final String STATE = "ANDAMAN & NICOBAR ISLANDS";
+//	private static final String DIRECTION = "NORTH AND MIDDLE ANDAMAN";
+	
 	private static final String FILE = "PATH-TO-SAVE";
 	private static final String SEPARATOR = "|";
 
@@ -74,17 +77,29 @@ public class Runner {
 
 				// City/town/village (ddlVCT)
 				List<String> vctLabels = seleniumUtils.labelsFromWebElement(driver, "ddlVCT");
+//				List<String> vctLabels = Arrays.asList("Wrafter's Creek (EFA)");
 				for (String vct : vctLabels) {
-					new WebDriverWait(driver, 30).until(ExpectedConditions.presenceOfElementLocated(By.xpath(".//*[@id='ddlVCT']/option[normalize-space(text())=\"" + vct + "\"]")));
-					driver.findElement(By.xpath(".//*[@id='ddlVCT']/option[normalize-space(text())=\"" + vct + "\"]")).click();
-
+					if(vct.contains("'")){
+						new WebDriverWait(driver, 30).until(ExpectedConditions.presenceOfElementLocated(By.xpath(".//*[@id='ddlVCT']/option[normalize-space(text())=\"" + vct + "\"]")));
+						driver.findElement(By.xpath(".//*[@id='ddlVCT']/option[normalize-space(text())=\"" + vct + "\"]")).click();
+					}else{
+						new WebDriverWait(driver, 30).until(ExpectedConditions.presenceOfElementLocated(By.xpath(".//*[@id='ddlVCT']/option[normalize-space(text())='" + vct + "']")));
+						driver.findElement(By.xpath(".//*[@id='ddlVCT']/option[normalize-space(text())='" + vct + "']")).click();
+					}
+					
 					// Locality (ddlLocality)
 					List<String> ddlLocalityLabels = seleniumUtils.labelsFromWebElement(driver, "ddlLocality");
 					for (String ddlLocality : ddlLocalityLabels) {
-						new WebDriverWait(driver, 30)
-								.until(ExpectedConditions.presenceOfElementLocated(By.xpath(".//*[@id='ddlLocality']/option[normalize-space(text())=\"" + ddlLocality + "\"]")));
-						driver.findElement(By.xpath(".//*[@id='ddlLocality']/option[normalize-space(text())=\"" + ddlLocality + "\"]")).click();
-
+						if(ddlLocality.contains("'")){
+							new WebDriverWait(driver, 30)
+									.until(ExpectedConditions.presenceOfElementLocated(By.xpath(".//*[@id='ddlLocality']/option[normalize-space(text())=\"" + ddlLocality + "\"]")));
+							driver.findElement(By.xpath(".//*[@id='ddlLocality']/option[normalize-space(text())=\"" + ddlLocality + "\"]")).click();
+						}else{
+							new WebDriverWait(driver, 30)
+							.until(ExpectedConditions.presenceOfElementLocated(By.xpath(".//*[@id='ddlLocality']/option[normalize-space(text())='" + ddlLocality + "']")));
+							driver.findElement(By.xpath(".//*[@id='ddlLocality']/option[normalize-space(text())='" + ddlLocality + "']")).click();
+						}
+						
 						// getting pin code
 						try {
 							new WebDriverWait(driver, 30).until(ExpectedConditions.presenceOfElementLocated(By.xpath(".//*[@id='txtPincode']")));

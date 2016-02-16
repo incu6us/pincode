@@ -11,6 +11,7 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.UnexpectedAlertBehaviour;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -49,7 +50,7 @@ public class Runner {
 		dc.setCapability(CapabilityType.UNEXPECTED_ALERT_BEHAVIOUR, UnexpectedAlertBehaviour.IGNORE);
 		WebDriver driver = new FirefoxDriver(dc);
 		driver.get("http://cept.gov.in/lbpsd/placesearch.aspx");
-		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+//		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
 		// Include All
 		driver.findElement(By.id("rbnIncludeAll")).click();
@@ -62,7 +63,7 @@ public class Runner {
 			stateLabels = Arrays.asList(STATE);
 		}
 		for (String state : stateLabels) {
-			new WebDriverWait(driver, 30).until(ExpectedConditions.presenceOfElementLocated(By.xpath(".//*[@id='ddlState']/option[normalize-space(text())='" + state + "']")));
+			new WebDriverWait(driver, 600).until(ExpectedConditions.presenceOfElementLocated(By.xpath(".//*[@id='ddlState']/option[normalize-space(text())='" + state + "']")));
 			driver.findElement(By.xpath(".//*[@id='ddlState']/option[normalize-space(text())='" + state + "']")).click();
 
 			// search for each district
@@ -72,7 +73,7 @@ public class Runner {
 				distLabels = Arrays.asList(DIRECTION);
 			}
 			for (String dist : distLabels) {
-				new WebDriverWait(driver, 30).until(ExpectedConditions.presenceOfElementLocated(By.xpath(".//*[@id='ddlDist']/option[normalize-space(text())='" + dist + "']")));
+				new WebDriverWait(driver, 600).until(ExpectedConditions.presenceOfElementLocated(By.xpath(".//*[@id='ddlDist']/option[normalize-space(text())='" + dist + "']")));
 				driver.findElement(By.xpath(".//*[@id='ddlDist']/option[normalize-space(text())='" + dist + "']")).click();
 
 				// City/town/village (ddlVCT)
@@ -80,10 +81,10 @@ public class Runner {
 //				List<String> vctLabels = Arrays.asList("Wrafter's Creek (EFA)");
 				for (String vct : vctLabels) {
 					if(vct.contains("'")){
-						new WebDriverWait(driver, 30).until(ExpectedConditions.presenceOfElementLocated(By.xpath(".//*[@id='ddlVCT']/option[normalize-space(text())=\"" + vct + "\"]")));
+						new WebDriverWait(driver, 600).until(ExpectedConditions.presenceOfElementLocated(By.xpath(".//*[@id='ddlVCT']/option[normalize-space(text())=\"" + vct + "\"]")));
 						driver.findElement(By.xpath(".//*[@id='ddlVCT']/option[normalize-space(text())=\"" + vct + "\"]")).click();
 					}else{
-						new WebDriverWait(driver, 30).until(ExpectedConditions.presenceOfElementLocated(By.xpath(".//*[@id='ddlVCT']/option[normalize-space(text())='" + vct + "']")));
+						new WebDriverWait(driver, 600).until(ExpectedConditions.presenceOfElementLocated(By.xpath(".//*[@id='ddlVCT']/option[normalize-space(text())='" + vct + "']")));
 						driver.findElement(By.xpath(".//*[@id='ddlVCT']/option[normalize-space(text())='" + vct + "']")).click();
 					}
 					
@@ -91,18 +92,20 @@ public class Runner {
 					List<String> ddlLocalityLabels = seleniumUtils.labelsFromWebElement(driver, "ddlLocality");
 					for (String ddlLocality : ddlLocalityLabels) {
 						if(ddlLocality.contains("'")){
-							new WebDriverWait(driver, 30)
+							LOG.info(1);
+							new WebDriverWait(driver, 600)
 									.until(ExpectedConditions.presenceOfElementLocated(By.xpath(".//*[@id='ddlLocality']/option[normalize-space(text())=\"" + ddlLocality + "\"]")));
 							driver.findElement(By.xpath(".//*[@id='ddlLocality']/option[normalize-space(text())=\"" + ddlLocality + "\"]")).click();
 						}else{
-							new WebDriverWait(driver, 30)
+							LOG.info(2);
+							new WebDriverWait(driver, 600)
 							.until(ExpectedConditions.presenceOfElementLocated(By.xpath(".//*[@id='ddlLocality']/option[normalize-space(text())='" + ddlLocality + "']")));
 							driver.findElement(By.xpath(".//*[@id='ddlLocality']/option[normalize-space(text())='" + ddlLocality + "']")).click();
 						}
 						
 						// getting pin code
 						try {
-							new WebDriverWait(driver, 30).until(ExpectedConditions.presenceOfElementLocated(By.xpath(".//*[@id='txtPincode']")));
+							new WebDriverWait(driver, 600).until(ExpectedConditions.presenceOfElementLocated(By.xpath(".//*[@id='txtPincode']")));
 							String pinCode = driver.findElement(By.xpath(".//*[@id='txtPincode']")).getAttribute("value");
 
 							if (!pinCode.equals("")) {

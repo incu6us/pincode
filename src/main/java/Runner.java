@@ -102,12 +102,10 @@ public class Runner {
 					List<String> ddlLocalityLabels = seleniumUtils.labelsFromWebElement(driver, "ddlLocality");
 					for (String ddlLocality : ddlLocalityLabels) {
 						if(ddlLocality.contains("'")){
-							LOG.info(1);
 							new WebDriverWait(driver, 600)
 									.until(ExpectedConditions.presenceOfElementLocated(By.xpath(".//*[@id='ddlLocality']/option[normalize-space(text())=\"" + ddlLocality + "\"]")));
 							driver.findElement(By.xpath(".//*[@id='ddlLocality']/option[normalize-space(text())=\"" + ddlLocality + "\"]")).click();
 						}else{
-							LOG.info(2);
 							new WebDriverWait(driver, 600)
 							.until(ExpectedConditions.presenceOfElementLocated(By.xpath(".//*[@id='ddlLocality']/option[normalize-space(text())='" + ddlLocality + "']")));
 							driver.findElement(By.xpath(".//*[@id='ddlLocality']/option[normalize-space(text())='" + ddlLocality + "']")).click();

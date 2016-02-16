@@ -15,6 +15,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.safari.SafariDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -26,7 +27,10 @@ public class Runner {
 	// use an empty variable for recursive search
 	private static final String STATE = "MAHARASHTRA";
 	private static final String DIRECTION = "MUMBAI";
-
+	
+	private static final String drive = "chrome";  // firefox or chrome
+	private static final String driverPath = "C:\\chromedriver.exe";  // path for chrome web driver
+	
 //	private static final String STATE = "ANDAMAN & NICOBAR ISLANDS";
 //	private static final String DIRECTION = "NORTH AND MIDDLE ANDAMAN";
 	
@@ -48,7 +52,13 @@ public class Runner {
 		
 		DesiredCapabilities dc = new DesiredCapabilities();
 		dc.setCapability(CapabilityType.UNEXPECTED_ALERT_BEHAVIOUR, UnexpectedAlertBehaviour.IGNORE);
-		WebDriver driver = new FirefoxDriver(dc);
+		WebDriver driver = null;
+		if(drive.equals("firefox")){
+			driver = new FirefoxDriver(dc);
+		}else if(drive.equals("chrome")){
+			System.setProperty("webdriver.chrome.driver", driverPath); 
+			driver = new ChromeDriver(dc);
+		}
 		driver.get("http://cept.gov.in/lbpsd/placesearch.aspx");
 //		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
